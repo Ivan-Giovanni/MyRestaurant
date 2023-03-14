@@ -45,6 +45,7 @@
 		CBCCCFAD29C01B280055FE78 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCCFAC29C01B280055FE78 /* RegisterViewController.swift */; };
 		CBCCCFAF29C01BB20055FE78 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCCFAE29C01BB20055FE78 /* NewConversationViewController.swift */; };
 		CBCCCFB129C01BCB0055FE78 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCCFB029C01BCB0055FE78 /* ProfileViewController.swift */; };
+		CBCCCFB329C022B70055FE78 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCCFB229C022B70055FE78 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		CBCCCFAC29C01B280055FE78 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CBCCCFAE29C01BB20055FE78 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		CBCCCFB029C01BCB0055FE78 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CBCCCFB229C022B70055FE78 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 			children = (
 				CBCCCF5729C0158E0055FE78 /* AppDelegate.swift */,
 				CBCCCF5929C0158E0055FE78 /* SceneDelegate.swift */,
+				CBCCCFB229C022B70055FE78 /* Extensions.swift */,
 			);
 			path = Ressources;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				CBCCCFAF29C01BB20055FE78 /* NewConversationViewController.swift in Sources */,
 				CBCCCFAB29C01B150055FE78 /* LogInViewController.swift in Sources */,
 				CBCCCFAD29C01B280055FE78 /* RegisterViewController.swift in Sources */,
+				CBCCCFB329C022B70055FE78 /* Extensions.swift in Sources */,
 				CBCCCF5C29C0158E0055FE78 /* HomeViewController.swift in Sources */,
 				CBCCCFB129C01BCB0055FE78 /* ProfileViewController.swift in Sources */,
 				CBCCCF5829C0158E0055FE78 /* AppDelegate.swift in Sources */,
