@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import FirebaseAuth
+import JGProgressHUD
 
 class RegisterViewController: UIViewController, UINavigationControllerDelegate {
+    
+    private let spinner = JGProgressHUD(style: .dark)
     
     //MARK: - Creating UI Elements
     
@@ -165,6 +169,57 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
     
     @objc private func registerButtonTapped() {
         
+        //Get rid of the keyboard
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        firstNameField.resignFirstResponder()
+        lastNameField.resignFirstResponder()
+        
+        guard let firstName = firstNameField.text, let lastName = lastNameField.text ,let email = emailField.text, let password = passwordField.text,
+              !email.isEmpty, !password.isEmpty, !firstName.isEmpty, !lastName.isEmpty, password.count >= 6 else {
+            alertUserLoginError()
+            return
+        
+        }
+        spinner.show(in: view, animated: true)
+        
+        //MARK: -Firebase Register
+        
+        DatabaseManager.shared.userExists(with: email, completion: { [weak self] exists in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss(animated: true)
+            }
+            
+            guard !exists else {
+                //User already exists
+                strongSelf.alertUserLoginError(message: "Looks like a user account for that email address already exists.")
+                return
+            }
+            
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { (authResult, error) in
+                guard authResult != nil, error == nil else {
+                    print("Error creating user")
+                    return
+                }
+                
+                let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
+                
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                
+            })
+            
+        })
+        
+    }
+    
+    func alertUserLoginError(message: String = "Veuillez entrer toutes informations nécessaires.") {
+        let alert = UIAlertController(title: "Woops", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 
 }

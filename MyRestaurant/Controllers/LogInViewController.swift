@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Firebase
+import JGProgressHUD
 
 class LogInViewController: UIViewController {
     
+    private let spinner = JGProgressHUD(style: .dark)
     
     //MARK: - Creating UI Elements
     
@@ -113,6 +116,64 @@ class LogInViewController: UIViewController {
     
     @objc private func loginButtonTapped() {
         
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        
+        guard let email = emailField.text, let password = passwordField.text, !email.isEmpty, !password.isEmpty, password.count >= 6 else {
+            alertUserLoginError()
+            return
+            
+        }
+        spinner.show(in: view, animated: true)
+        
+        //MARK: -Firebase Login
+        
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] (authResult, error)in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss(animated: true)
+            }
+            
+            guard let result = authResult, error == nil else {
+                print("Failed to log the user with email")
+                return
+            }
+            
+            let user = result.user
+            
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { result in
+                switch result {
+                case .success(let data):
+                    guard let userData = data as? [String: Any],
+                    let firstName = userData["first_name"] as? String,
+                    let lastName = userData["last_name"] as? String else {
+                        return
+                    }
+                    UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                    
+                case.failure(let error):
+                    print("failed to read data with error \(error)")
+                }
+            })
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
+            print("Logged in user successfully: \(user)")
+            strongSelf.navigationController?.dismiss(animated: true)
+        })
+        
+    }
+    
+    func alertUserLoginError() {
+        let alert = UIAlertController(title: "Woops", message: "Veuillez entrer toutes informations nécessaires.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dissmiss", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
     
     @objc private func didTapRegister() {
